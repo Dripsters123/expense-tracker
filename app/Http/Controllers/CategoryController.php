@@ -13,7 +13,7 @@ class CategoryController
     public function index()
     {
         $categories = Category::with('expenses')->get();
-        return view('categories', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 
 
@@ -22,7 +22,7 @@ class CategoryController
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -30,7 +30,12 @@ class CategoryController
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Category::create($request->all());
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -38,7 +43,7 @@ class CategoryController
      */
     public function show(Category $category)
     {
-        //
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -46,7 +51,7 @@ class CategoryController
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -54,7 +59,12 @@ class CategoryController
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category->update($request->all());
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -62,6 +72,7 @@ class CategoryController
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index');
     }
 }

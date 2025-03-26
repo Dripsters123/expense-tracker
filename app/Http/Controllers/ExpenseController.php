@@ -13,7 +13,7 @@ class ExpenseController
     public function index()
     {
         $expenses = Expense::with('category')->get();
-        return view('expenses', compact('expenses'));
+        return view('expenses.index', compact('expenses'));
     }
 
 
@@ -22,7 +22,7 @@ class ExpenseController
      */
     public function create()
     {
-        //
+        return view('expenses.create');
     }
 
     /**
@@ -30,7 +30,12 @@ class ExpenseController
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Expense::create($request->all());
+        return redirect()->route('expenses.index');
     }
 
     /**
@@ -38,7 +43,7 @@ class ExpenseController
      */
     public function show(Expense $expense)
     {
-        //
+        return view('expenses.show', compact('expenses'));
     }
 
     /**
