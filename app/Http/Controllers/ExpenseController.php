@@ -51,7 +51,7 @@ class ExpenseController
      */
     public function edit(Expense $expense)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
